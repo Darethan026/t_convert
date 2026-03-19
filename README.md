@@ -20,9 +20,12 @@ fn main() {
 	match input.trim().parse::<f64>() {
 		Ok(num) => {
 			let temp = Temperature::new(num, Unit::Celsius);
-			let temp = temp.to_kelvin();
+			
+			// Use a new variable to hold the converted unit.
+			let kelvin = temp.to_kelvin();
 
-			println!("\n{} degrees celsius is {} kelvin.", num, temp);
+			// Use get_value() to show how to access the result safely.
+			println!("\n{} degrees celsius is {} kelvin.", temp.get_value(), kelvin);
 		}
 
 		Err(e) => {
