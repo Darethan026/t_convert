@@ -1,6 +1,6 @@
 [package]
 name = "t_convert"
-version = "1.0.0"
+version = "1.1.0"
 edition = "2024"
 documentation = "https://docs.rs/t_convert"
 description = "A rust library which can take integer or floating point inputs, or parsed string inputs in order to convert temperature between the units of Celsius, Fahrenheit, and Kelvin."
