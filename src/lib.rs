@@ -22,6 +22,7 @@ impl Temperature {
         }
     }
 
+    /// To get the value from a result variable holding the converted unit, use this method!
     pub fn get_value(&self) -> f64 {
         self.value
     }
