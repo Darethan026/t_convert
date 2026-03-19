@@ -22,6 +22,10 @@ impl Temperature {
         }
     }
 
+    pub fn get_value(&self) -> f64 {
+        self.value
+    }
+
     /// A function to convert either celsius, fahrenheit or kelvin to celsius using a floating point input.
     ///
     /// Convert a temp to Celsius from Fahrenheit.
@@ -30,9 +34,11 @@ impl Temperature {
     /// use t_convert::{Temperature, Unit};
     ///
     /// let temp = Temperature::new(0.0, Unit::Fahrenheit);
-    /// let temp = temp.to_celsius();
+    /// // Store the result in a new variable to ensure we don't get 'temp', which is now an f64
     ///
-    /// println!("Temperature in Celsius: {}", temp);
+    /// let result = temp.to_celsius();
+    ///
+    /// println!("Temperature in Celsius: {}, Result {}", temp.get_value(), result);
     /// ```
     pub fn to_celsius(&self) -> f64 {
         match self.unit {
