@@ -7,7 +7,7 @@ description = "A rust library which can take integer or floating point inputs, o
 repository = "https://github.com/Darethan025/t_convert"
 license = "MIT OR Apache-2.0"
 readme = "README.md"
-keywords = ["convert", "temp", "t_conv", "temperature", "efficient", "conversion"]
+keywords = ["convert", "temp", "t_conv", "efficient", "conversion"]
 categories = ["command-line-utilities", "mathematics"]
 authors = ["Ethan <kigangadarell@gmail.com>"]
 
