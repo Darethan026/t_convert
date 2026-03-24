@@ -1,6 +1,6 @@
 # t_convert
 
-This is a rust library to convert temperatures between Celsius, Fahrenheit, and Kelvin.
+This is a rust library to convert temperatures between Celsius, Fahrenheit, and Kelvin, without going below absolute zero.
 
 To use it, copy and paste 'cargo add t_convert' on the command-line in the project directory and it will be added to your project.
 
@@ -19,13 +19,18 @@ fn main() {
 
 	match input.trim().parse::<f64>() {
 		Ok(num) => {
-			let temp = Temperature::new(num, Unit::Celsius);
-			
-			// Use a new variable to hold the converted unit.
-			let kelvin = temp.to_kelvin();
+			match Temperature::new(num, Unit::Celsius) {
+				Some(temp) => {
+					if let Some(kelvin) = temp.to_kelvin() {
+						// Use get_value() to show access the result safely.
+						println!("\n{} degrees Celsius is {} kelvin.", temp.get_value(), kelvin.get_value());
+					}
+				}
 
-			// Use get_value() to show how to access the result safely.
-			println!("\n{} degrees celsius is {} kelvin.", temp.get_value(), kelvin);
+				None => {
+					println!("\nError: {} is below absolute zero!", num);
+				}
+			}
 		}
 
 		Err(e) => {
