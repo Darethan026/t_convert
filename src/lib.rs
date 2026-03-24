@@ -15,10 +15,17 @@ pub struct Temperature {
 
 /// An implementation of the temperature struct.
 impl Temperature {
-    pub fn new(value:f64, unit: Unit) -> Self {
-        Self {
-            value,
-            unit,
+    pub fn new(value:f64, unit: Unit) -> Option<Self> {
+        let valid_temp = match unit {
+            Unit::Celsius => value >= -273.15,
+            Unit::Fahrenheit => value >= -459.67,
+            Unit::Kelvin => value >= 0.0,
+        };
+
+        if valid_temp {
+            Some(Self { value, unit })
+        } else {
+            None
         }
     }
 
@@ -34,21 +41,26 @@ impl Temperature {
     ///
     /// use t_convert::{Temperature, Unit};
     ///
-    /// let temp = Temperature::new(0.0, Unit::Fahrenheit);
-    /// // Store the result in a new variable to ensure we don't get 'temp', which is now an f64
+    /// // We use '.expect' to get the value since it's an 'Option' value.
+    /// let temp = Temperature::new(0.0, Unit::Fahrenheit).expect("Invalid value.");
     ///
-    /// let result = temp.to_celsius();
+    /// // We match the value to the 'to_celsius' method to ensure safety.
+    /// match temp.to_celsius() {
+    ///     Some(t) => println!("Temperature in celsius: {}", t.get_value()),
+    ///     None => println!("Couldn't convert temperature!"),
+    /// };
     ///
-    /// println!("Temperature in Celsius: {}, Result {}", temp.get_value(), result);
     /// ```
-    pub fn to_celsius(&self) -> f64 {
-        match self.unit {
+    pub fn to_celsius(&self) -> Option<Self> {
+        let celsius = match self.unit {
             Unit::Celsius => self.value,
 
             Unit::Fahrenheit => (self.value - 32.0) * 5.0 / 9.0,
 
             Unit::Kelvin => self.value - 273.15,
-        }
+        };
+
+        Self::new(celsius, Unit::Celsius)
     }
 
     /// A function to convert either fahrenheit, celsius or kelvin to fahrenheit using a floating point input.
@@ -58,19 +70,26 @@ impl Temperature {
     ///
     /// use t_convert::{Temperature, Unit};
     ///
-    /// let temp = Temperature::new(0.0, Unit::Celsius);
-    /// let temp = temp.to_fahrenheit();
+    /// // We use '.expect' to get the value since it's an 'Option' value.
+    /// let temp = Temperature::new(0.0, Unit::Celsius).expect("Invalid value.");
     ///
-    /// println!("Temperature in Fahrenheit: {}", temp);
+    /// // We match the value to the 'to_fahrenheit' method to ensure safety.
+    /// match temp.to_fahrenheit() {
+    ///     Some(t) => println!("Temperature in fahrenheit: {}", t.get_value()),
+    ///     None => println!("Couldn't convert temperature!"),
+    /// };
+    ///
     /// ```
-    pub fn to_fahrenheit(&self) -> f64 {
-        match self.unit {
+    pub fn to_fahrenheit(&self) -> Option<Self> {
+        let fahrenheit = match self.unit {
             Unit::Fahrenheit => self.value,
 
             Unit::Celsius => (self.value * 9.0 / 5.0) + 32.0,
 
             Unit::Kelvin => (self.value - 273.15) * 9.0 / 5.0 + 32.0,
-        }
+        };
+
+        Self::new(fahrenheit, Unit::Fahrenheit)
     }
 
     /// A function to convert either kelvin, celsius or fahrenheit to kelvin using a floating point input.
@@ -80,18 +99,25 @@ impl Temperature {
     ///
     /// use t_convert::{Temperature, Unit};
     ///
-    /// let temp = Temperature::new(0.0, Unit::Celsius);
-    /// let temp = temp.to_kelvin();
+    /// // We use '.expect' to get the value since it's an 'Option' value.
+    /// let temp = Temperature::new(0.0, Unit::Celsius).expect("Invalid value.");
     ///
-    /// println!("Temperature in kelvin: {}", temp);
+    /// // We match the value to the 'to_kelvin' method to ensure safety.
+    /// match temp.to_kelvin() {
+    ///     Some(t) => println!("Temperature in kelvin: {}", t.get_value()),
+    ///     None => println!("Couldn't convert temperature!"),
+    /// };
+    ///
     /// ```
-    pub fn to_kelvin(&self) -> f64 {
-        match self.unit {
+    pub fn to_kelvin(&self) -> Option<Self> {
+        let kelvin = match self.unit {
             Unit::Kelvin => self.value,
 
             Unit::Celsius => self.value + 273.15,
 
             Unit::Fahrenheit => (self.value - 32.0) * 5.0 / 9.0 + 273.15,
-        }
+        };
+
+        Self::new(kelvin, Unit::Kelvin)
     }
 }
